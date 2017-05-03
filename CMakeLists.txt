@@ -6,4 +6,4 @@ project(cxx_go CXX C Go)
 
 include(cmake/golang.cmake)
 
-#add_subdirectory(src)
+add_subdirectory(src)
