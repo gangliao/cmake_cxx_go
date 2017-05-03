@@ -28,6 +28,10 @@ cmake ..
 make && make install
 ```
 
+## Demo
+
+<a href="img/demo.gif" target="_blank"><img src="img/cmake_go.gif" width="1000" /></a>
+
 ## Reference
 
 Inspired from https://github.com/cpconduce/go_cmake
