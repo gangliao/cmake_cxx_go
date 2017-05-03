@@ -2,14 +2,14 @@ set(GOPATH "${CMAKE_CURRENT_BINARY_DIR}/go")
 file(MAKE_DIRECTORY ${GOPATH})
 
 function(ExternalGoProject_Add TARG)
-  add_custom_target(${TARG} env GOPATH=${GOPATH} go get ${ARGN})
+  add_custom_target(${TARG} env GOPATH=${GOPATH} ${CMAKE_Go_COMPILER} get ${ARGN})
 endfunction(ExternalGoProject_Add)
 
 function(ADD_GO_EXECUTABLE NAME MAIN_SRC)
   get_filename_component(MAIN_SRC_ABS ${MAIN_SRC} ABSOLUTE)
   add_custom_target(${NAME})
   add_custom_command(TARGET ${NAME}
-                    COMMAND env GOPATH=${GOPATH} go build 
+                    COMMAND env GOPATH=${GOPATH} ${CMAKE_Go_COMPILER} build 
                     -o "${CMAKE_CURRENT_BINARY_DIR}/${NAME}"
                     ${CMAKE_GO_FLAGS} ${MAIN_SRC}
                     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
@@ -17,7 +17,7 @@ function(ADD_GO_EXECUTABLE NAME MAIN_SRC)
   foreach(DEP ${ARGN})
     add_dependencies(${NAME} ${DEP})
   endforeach()
-  
-  add_custom_target(${NAME}_all ALL DEPENDS ${NAME})
+
+  add_custom_target(${NAME}_go ALL DEPENDS ${NAME})
   install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/${NAME} DESTINATION bin)
 endfunction(ADD_GO_EXECUTABLE)
