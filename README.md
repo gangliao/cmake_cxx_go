@@ -2,6 +2,8 @@
 
 We add some custom CMake functions to support golang including `go get`, `go build`, `go install`.
 
+## custom functions
+
 1. `ExternalGoProject_Add`
 
 ```
@@ -16,7 +18,9 @@ ADD_GO_EXECUTABLE(redis_lister    # executable name
                   go_redis)       # everything else is a dependency
 ```
 
-3. cmake build and install
+3. new `CMAKE_GO_FLAGS` CMake variable.
+
+## cmake build and install
 
 ```
 mkdir build && cmake ..
