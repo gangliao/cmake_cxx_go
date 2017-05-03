@@ -27,3 +27,7 @@ mkdir build && cmake ..
 cmake ..
 make && make install
 ```
+
+## Reference
+
+Inspired from https://github.com/cpconduce/go_cmake
