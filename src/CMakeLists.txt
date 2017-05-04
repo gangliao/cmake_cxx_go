@@ -1,2 +1,2 @@
-add_subdirectory(redis)
+add_subdirectory(redis_lister)
 add_subdirectory(static_and_shared)

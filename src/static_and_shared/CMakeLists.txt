@@ -1,7 +1,7 @@
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
+# INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
-ADD_GO_LIBRARY(adder STATIC adder.go)
+ADD_GO_LIBRARY(adder STATIC)
 
-ADD_EXECUTABLE(main main.cxx)
-add_dependencies(main adder)
-TARGET_LINK_LIBRARIES(main ${CMAKE_CURRENT_BINARY_DIR}/libadder.a)
+# ADD_EXECUTABLE(main main.cxx)
+# add_dependencies(main adder)
+# TARGET_LINK_LIBRARIES(main ${CMAKE_CURRENT_BINARY_DIR}/libadder.a)
