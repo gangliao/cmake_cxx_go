@@ -18,13 +18,19 @@ ADD_GO_EXECUTABLE(redis_lister    # executable name
                   go_redis)       # everything else is a dependency
 ```
 
-3. new `CMAKE_GO_FLAGS` CMake variable.
+4. `ADD_GO_LIBRARY`
+
+```
+add_go_library(adder STATIC)  # build library libaddr.a
+add_executable(main main.cxx) # build binary main
+add_dependencies(main adder)  # adder is a dependency of main
+target_link_libraries(main ${CMAKE_CURRENT_BINARY_DIR}/libadder.a) # link libaddr.a into main
+```
 
 ## cmake build and install
 
 ```
 mkdir build && cmake ..
-cmake ..
 make && make install
 ```
 
