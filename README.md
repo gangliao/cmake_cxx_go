@@ -34,15 +34,15 @@ mkdir build && cmake ..
 make && make install
 ```
 
-## Demo
-
-<a href="img/demo.gif" target="_blank"><img src="img/cmake_go.gif" width="1000" /></a>
-
 ## Test cases
 
 - [x] static_and_shared: C++ calling from go static/dynamic library
 - [x] recordio: `go get` external projects and build a library
-- [] cuda: go calling from CUDA kernel
+- [ ] cuda: go calling from CUDA kernel
+
+## Demo
+
+<a href="img/demo.gif" target="_blank"><img src="img/cmake_go.gif" width="1000" /></a>
 
 
 ## Reference
