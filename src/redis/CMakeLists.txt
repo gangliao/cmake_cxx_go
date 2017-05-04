@@ -1,5 +1,4 @@
 ExternalGoProject_Add(go_redis github.com/hoisie/redis)
 
-ADD_GO_EXECUTABLE(redis_lister    # executable name
-                  redis_lister.go # `package main` source file
+add_go_executable(redis_lister    # executable name
                   go_redis)       # everything else is a dependency
