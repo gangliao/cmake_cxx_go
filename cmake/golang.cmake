@@ -6,7 +6,7 @@ function(ExternalGoProject_Add TARG)
 endfunction(ExternalGoProject_Add)
 
 function(add_go_executable NAME)
-  file(GLOB_RECURSE GO_SOURCE RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "*.go")
+  file(GLOB GO_SOURCE RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "*.go")
   add_custom_command(OUTPUT ${OUTPUT_DIR}/.timestamp 
     COMMAND env GOPATH=${GOPATH} ${CMAKE_Go_COMPILER} build
     -o "${CMAKE_CURRENT_BINARY_DIR}/${NAME}"
@@ -31,7 +31,7 @@ function(ADD_GO_LIBRARY NAME BUILD_TYPE)
     endif()
   endif()
 
-  file(GLOB_RECURSE GO_SOURCE RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "*.go")
+  file(GLOB GO_SOURCE RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "*.go")
   add_custom_command(OUTPUT ${OUTPUT_DIR}/.timestamp
     COMMAND env GOPATH=${GOPATH} ${CMAKE_Go_COMPILER} build ${BUILD_MODE}
     -o "${CMAKE_CURRENT_BINARY_DIR}/${LIB_NAME}"
