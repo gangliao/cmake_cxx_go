@@ -38,6 +38,13 @@ make && make install
 
 <a href="img/demo.gif" target="_blank"><img src="img/cmake_go.gif" width="1000" /></a>
 
+## Test cases
+
+- [x] static_and_shared: C++ calling from go static/dynamic library
+- [x] recordio: `go get` external projects and build a library
+- [] cuda: go calling from CUDA kernel
+
+
 ## Reference
 
 Inspired from https://github.com/cpconduce/go_cmake
