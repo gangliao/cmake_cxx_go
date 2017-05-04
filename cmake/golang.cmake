@@ -6,35 +6,43 @@ function(ExternalGoProject_Add TARG)
 endfunction(ExternalGoProject_Add)
 
 function(add_go_executable NAME)
-  get_filename_component(SRC_ABS ${CMAKE_CURRENT_SOURCE_DIR} ABSOLUTE)
   add_custom_target(${NAME})
   add_custom_command(TARGET ${NAME}
-                    COMMAND env GOPATH=${GOPATH} ${CMAKE_Go_COMPILER} build
-                    -o "${CMAKE_CURRENT_BINARY_DIR}/${NAME}"
-                    ${CMAKE_GO_FLAGS}
-                    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
-                    DEPENDS file(GLOB ${SRC_ABS} "*.go"))
+    COMMAND env GOPATH=${GOPATH} ${CMAKE_Go_COMPILER} build
+    -o "${CMAKE_CURRENT_BINARY_DIR}/${NAME}"
+    ${CMAKE_GO_FLAGS}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
+    DEPENDS file(GLOB ${CMAKE_CURRENT_SOURCE_DIR} "*.go"))
   foreach(DEP ${ARGN})
     add_dependencies(${NAME} ${DEP})
   endforeach()
 
-  add_custom_target(${NAME}_go ALL DEPENDS ${NAME})
   install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/${NAME} DESTINATION bin)
 endfunction(add_go_executable)
 
-function(add_go_library NAME)
-  get_filename_component(SRC_ABS ${CMAKE_CURRENT_SOURCE_DIR} ABSOLUTE)
-  add_custom_target(${NAME})
-  add_custom_command(TARGET ${NAME}
-                    COMMAND env GOPATH=${GOPATH} ${CMAKE_Go_COMPILER} build
-                    -o "${CMAKE_CURRENT_BINARY_DIR}/lib${NAME}.a"
-                    ${CMAKE_GO_FLAGS}
-                    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
-                    DEPENDS file(GLOB ${SRC_ABS} "*.go"))
-  foreach(DEP ${ARGN})
-    add_dependencies(${NAME} ${DEP})
-  endforeach()
 
-  add_custom_target(${NAME}_go ALL DEPENDS ${NAME})
-  install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/${NAME} DESTINATION bin)
-endfunction(add_go_library)
+function(ADD_GO_LIBRARY NAME BUILD_TYPE)
+  if(BUILD_TYPE STREQUAL "STATIC")
+    set(BUILD_MODE -buildmode=c-archive)
+    set(LIB_NAME "lib${NAME}.a")
+  else()
+    set(BUILD_MODE -buildmode=c-shared)
+    if(APPLE)
+      set(LIB_NAME "lib${NAME}.dylib")
+    else()
+      set(LIB_NAME "lib${NAME}.so")
+    endif()
+  endif()
+
+  add_custom_target(${NAME} ALL DEPENDS ${OUTPUT_DIR}/.timestamp ${ARGN})
+  add_custom_command(OUTPUT ${OUTPUT_DIR}/.timestamp
+    COMMAND env GOPATH=${GOPATH} ${CMAKE_Go_COMPILER} build ${BUILD_MODE}
+    -o "${CMAKE_CURRENT_BINARY_DIR}/${LIB_NAME}"
+    ${CMAKE_GO_FLAGS}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
+    DEPENDS file(GLOB ${CMAKE_CURRENT_SOURCE_DIR} "*.go"))
+
+  if(BUILD_TYPE STREQUAL "DYNAMIC")
+    install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/${LIB_NAME} DESTINATION bin)
+  endif()
+endfunction(ADD_GO_LIBRARY)
