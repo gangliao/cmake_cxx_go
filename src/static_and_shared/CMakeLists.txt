@@ -1,4 +1,6 @@
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+message("$### ${CMAKE_CURRENT_BINARY_DIR}")
 add_go_library(adder STATIC)
-
 add_executable(main main.cxx)
+add_dependencies(main adder)
 target_link_libraries(main ${CMAKE_CURRENT_BINARY_DIR}/libadder.a)

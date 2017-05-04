@@ -6,17 +6,14 @@ function(ExternalGoProject_Add TARG)
 endfunction(ExternalGoProject_Add)
 
 function(add_go_executable NAME)
-  add_custom_target(${NAME})
-  add_custom_command(TARGET ${NAME}
+  file(GLOB_RECURSE GO_SOURCE RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "*.go")
+  add_custom_command(OUTPUT ${OUTPUT_DIR}/.timestamp 
     COMMAND env GOPATH=${GOPATH} ${CMAKE_Go_COMPILER} build
     -o "${CMAKE_CURRENT_BINARY_DIR}/${NAME}"
-    ${CMAKE_GO_FLAGS}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
-    DEPENDS file(GLOB ${CMAKE_CURRENT_SOURCE_DIR} "*.go"))
-  foreach(DEP ${ARGN})
-    add_dependencies(${NAME} ${DEP})
-  endforeach()
+    ${CMAKE_GO_FLAGS} ${GO_SOURCE}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR})
 
+  add_custom_target(${NAME} ALL DEPENDS ${OUTPUT_DIR}/.timestamp ${ARGN})
   install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/${NAME} DESTINATION bin)
 endfunction(add_go_executable)
 
@@ -34,15 +31,16 @@ function(ADD_GO_LIBRARY NAME BUILD_TYPE)
     endif()
   endif()
 
-  add_custom_target(${NAME} ALL DEPENDS ${OUTPUT_DIR}/.timestamp ${ARGN})
+  file(GLOB_RECURSE GO_SOURCE RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "*.go")
   add_custom_command(OUTPUT ${OUTPUT_DIR}/.timestamp
     COMMAND env GOPATH=${GOPATH} ${CMAKE_Go_COMPILER} build ${BUILD_MODE}
     -o "${CMAKE_CURRENT_BINARY_DIR}/${LIB_NAME}"
-    ${CMAKE_GO_FLAGS}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
-    DEPENDS file(GLOB ${CMAKE_CURRENT_SOURCE_DIR} "*.go"))
+    ${CMAKE_GO_FLAGS} ${GO_SOURCE}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR})
 
-  if(BUILD_TYPE STREQUAL "DYNAMIC")
+  add_custom_target(${NAME} ALL DEPENDS ${OUTPUT_DIR}/.timestamp ${ARGN})
+
+  if(NOT BUILD_TYPE STREQUAL "STATIC")
     install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/${LIB_NAME} DESTINATION bin)
   endif()
 endfunction(ADD_GO_LIBRARY)
