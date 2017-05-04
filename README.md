@@ -18,7 +18,7 @@ ADD_GO_EXECUTABLE(redis_lister    # executable name
                   go_redis)       # everything else is a dependency
 ```
 
-4. `ADD_GO_LIBRARY`
+3. `ADD_GO_LIBRARY`
 
 ```
 add_go_library(adder STATIC)  # build library libaddr.a
