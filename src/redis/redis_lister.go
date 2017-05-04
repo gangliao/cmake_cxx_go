@@ -1,7 +1,12 @@
 package main
 
-import "github.com/hoisie/redis"
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/davecgh/go-spew/spew"
+	"github.com/hoisie/redis"
+)
+
 import "log"
 
 func main() {
@@ -14,4 +19,5 @@ func main() {
 	for _, k := range keys {
 		fmt.Printf("key: %s\n", k)
 	}
+	spew.Dump(keys)
 }
