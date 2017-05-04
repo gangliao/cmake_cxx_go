@@ -36,9 +36,10 @@ make && make install
 
 ## Test cases
 
-- [x] static_and_shared: C++ calling from go static/dynamic library
+- [x] redis: redis lister
 - [x] recordio: `go get` external projects and build a library
-- [ ] cuda: go calling from CUDA kernel
+- [x] **static_and_shared: C++ calling from go static/dynamic library**
+- [ ] **cuda: go calling from CUDA kernel**
 
 ## Demo
 
