@@ -48,4 +48,5 @@ make && make install
 
 ## Reference
 
-Inspired from https://github.com/cpconduce/go_cmake
+1. https://github.com/cpconduce/go_cmake
+2. https://github.com/draffensperger/go-interlang
