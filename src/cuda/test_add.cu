@@ -4,6 +4,7 @@ __global__ void add(int *a, int *b, int *c){
     *c = *a + *b;
 }
 
+extern "C" {
 int test_add(void) {
     int a, b, c; // host copies of a, b, c
     int *d_a, *d_b, *d_c; // device copies of a, b, c
@@ -26,4 +27,5 @@ int test_add(void) {
     // Cleanup
     cudaFree(d_a); cudaFree(d_b); cudaFree(d_c);
     return 0;
+}
 }
